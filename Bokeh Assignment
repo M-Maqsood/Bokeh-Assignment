@@ -1,0 +1,87 @@
+
+'''Q1. How can you create a Bokeh plot using Python code?'''
+'''first we need to install bokeh using pip install bokeh then we import the required modules'''
+import bokeh.io
+from bokeh.plotting import figure ,output_file,show,output_notebook
+bokeh.io.output_notebook()
+'''Q2. What are glyphs in Bokeh, and how can you add them to a Bokeh plot? Explain with an example.'''
+'''
+In Bokeh, a glyph is a graphical shape or marker that can be used to represent data points on a plot.
+Examples of glyphs include lines, circles, squares, and triangles.
+To add glyphs to a Bokeh plot, you first need to create a figure object and specify the data that you want to plot. 
+Then, you can add glyphs to the figure using the corresponding glyph functions such as line, circle, square, triangle, and so on.
+'''
+# import the necessary libraries
+from bokeh.plotting import figure, output_file, show
+
+# create some sample data
+x = [1, 2, 3, 4, 5]
+y = [6, 7, 2, 4, 5]
+
+# specify the output file where the plot will be saved
+#output_file("circle_plot.html")
+
+# create a new figure object
+p = figure(title="Sample Bokeh Plot", x_axis_label='x', y_axis_label='y')
+
+# add a circle glyph to the figure object
+p.circle(x, y, size=10, color="navy", alpha=0.5)
+
+# show the plot
+show(p)
+'''Q3. How can you customize the appearance of a Bokeh plot, including the axes, title, and legend?'''
+'''Bokeh provides several ways to customize the appearance of a plot, including the axes, title, and legend. Here are some examples:
+
+Customizing the title:
+
+# create a new figure object and set the title
+p = figure(title="My Custom Title", ...)
+
+
+Customizing the axes:
+
+# create a new figure object and set the x-axis and y-axis labels
+p = figure(x_axis_label='X-Axis Label', y_axis_label='Y-Axis Label', ...)
+
+# customize the axis ranges
+p.x_range.range_padding = 0.1 # padding around the x-axis range
+p.y_range.range_padding = 0.1 # padding around the y-axis range
+p.x_range.start = 0 # set the starting value of the x-axis range
+p.y_range.end = 100 # set the ending value of the y-axis range
+
+# customize the tick labels
+p.xaxis.axis_label_text_font_style = 'italic' # set the font style of the x-axis label
+p.yaxis.major_label_text_color = 'red' # set the color of the y-axis tick labels
+
+
+Customizing the legend:
+
+# add a legend to the plot and customize its location
+p.legend.location = "top_left" # set the location of the legend
+p.legend.label_text_font_size = "12pt" # set the font size of the legend labels
+p.legend.title = "My Legend" # set the title of the legend'''
+'''Q4. What is a Bokeh server, and how can you use it to create interactive plots that can be updated in
+real time?'''
+'''A Bokeh server is a Python application that allows you to create interactive Bokeh plots that can be updated in real-time. 
+With the Bokeh server, you can build web applications that let users interact with data in a dynamic and responsive way.'''
+'''Q5. How can you embed a Bokeh plot into a web page or dashboard using Flask or Django?'''
+from flask import Flask, render_template
+from bokeh.plotting import figure
+from bokeh.embed import components
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    # Create a Bokeh plot
+    plot = figure(title='Example Plot', x_axis_label='X', y_axis_label='Y')
+    plot.line([1, 2, 3], [4, 5, 6])
+
+    # Generate the HTML code for the Bokeh plot
+    script, div = components(plot)
+
+    # Pass the HTML code as a context variable to the template
+    return render_template('bokeh.html', plot_script=script, plot_div=div)
+
+if __name__ == '__main__':
+    app.run(debug=True)
